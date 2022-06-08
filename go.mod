@@ -5,7 +5,7 @@ go 1.12
 require (
 	github.com/golang/glog v1.0.0
 	github.com/imdario/mergo v0.3.12
-	github.com/kubeless/kubeless v1.0.3
+	github.com/kubeless/kubeless v1.0.8
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cobra v1.4.0
 	k8s.io/api v0.24.1
@@ -15,5 +15,3 @@ require (
 )
 
 replace github.com/kubeless/kubeless => ../kubeless
-
-replace github.com/kubeless/http-trigger => ../http-trigger

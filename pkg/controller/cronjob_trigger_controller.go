@@ -17,6 +17,7 @@ limitations under the License.
 package controller
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -219,7 +220,7 @@ func (c *CronJobTriggerController) syncCronJobTrigger(key string) error {
 		}
 
 		// CronJob Trigger object should be deleted, so remove associated cronjob and remove the finalizer
-		err = c.clientset.BatchV1beta1().CronJobs(ns).Delete(name, &metav1.DeleteOptions{})
+		err = c.clientset.BatchV1beta1().CronJobs(ns).Delete(context.TODO(), name, metav1.DeleteOptions{})
 		if err != nil && !k8sErrors.IsNotFound(err) {
 			c.logger.Errorf("Failed to remove CronJob created for CronJobTrigger Obj: %s due to: %v: ", key, err)
 			return err
