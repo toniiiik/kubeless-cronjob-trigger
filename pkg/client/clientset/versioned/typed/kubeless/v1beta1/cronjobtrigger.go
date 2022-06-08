@@ -16,6 +16,8 @@ limitations under the License.
 package v1beta1
 
 import (
+	"context"
+
 	v1beta1 "github.com/kubeless/cronjob-trigger/pkg/apis/kubeless/v1beta1"
 	scheme "github.com/kubeless/cronjob-trigger/pkg/client/clientset/versioned/scheme"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -65,7 +67,7 @@ func (c *cronJobTriggers) Get(name string, options v1.GetOptions) (result *v1bet
 		Resource("cronjobtriggers").
 		Name(name).
 		VersionedParams(&options, scheme.ParameterCodec).
-		Do().
+		Do(context.TODO()).
 		Into(result)
 	return
 }
@@ -77,7 +79,7 @@ func (c *cronJobTriggers) List(opts v1.ListOptions) (result *v1beta1.CronJobTrig
 		Namespace(c.ns).
 		Resource("cronjobtriggers").
 		VersionedParams(&opts, scheme.ParameterCodec).
-		Do().
+		Do(context.TODO()).
 		Into(result)
 	return
 }
@@ -89,7 +91,7 @@ func (c *cronJobTriggers) Watch(opts v1.ListOptions) (watch.Interface, error) {
 		Namespace(c.ns).
 		Resource("cronjobtriggers").
 		VersionedParams(&opts, scheme.ParameterCodec).
-		Watch()
+		Watch(context.TODO())
 }
 
 // Create takes the representation of a cronJobTrigger and creates it.  Returns the server's representation of the cronJobTrigger, and an error, if there is any.
@@ -99,7 +101,7 @@ func (c *cronJobTriggers) Create(cronJobTrigger *v1beta1.CronJobTrigger) (result
 		Namespace(c.ns).
 		Resource("cronjobtriggers").
 		Body(cronJobTrigger).
-		Do().
+		Do(context.TODO()).
 		Into(result)
 	return
 }
@@ -112,7 +114,7 @@ func (c *cronJobTriggers) Update(cronJobTrigger *v1beta1.CronJobTrigger) (result
 		Resource("cronjobtriggers").
 		Name(cronJobTrigger.Name).
 		Body(cronJobTrigger).
-		Do().
+		Do(context.TODO()).
 		Into(result)
 	return
 }
@@ -124,7 +126,7 @@ func (c *cronJobTriggers) Delete(name string, options *v1.DeleteOptions) error {
 		Resource("cronjobtriggers").
 		Name(name).
 		Body(options).
-		Do().
+		Do(context.TODO()).
 		Error()
 }
 
@@ -135,7 +137,7 @@ func (c *cronJobTriggers) DeleteCollection(options *v1.DeleteOptions, listOption
 		Resource("cronjobtriggers").
 		VersionedParams(&listOptions, scheme.ParameterCodec).
 		Body(options).
-		Do().
+		Do(context.TODO()).
 		Error()
 }
 
@@ -148,7 +150,7 @@ func (c *cronJobTriggers) Patch(name string, pt types.PatchType, data []byte, su
 		SubResource(subresources...).
 		Name(name).
 		Body(data).
-		Do().
+		Do(context.TODO()).
 		Into(result)
 	return
 }

@@ -17,6 +17,7 @@ limitations under the License.
 package utils
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"strconv"
@@ -148,10 +149,10 @@ func EnsureCronJob(client kubernetes.Interface, funcObj *kubelessApi.Function, c
 		},
 	}
 
-	_, err = client.BatchV1beta1().CronJobs(funcObj.ObjectMeta.Namespace).Create(job)
+	_, err = client.BatchV1beta1().CronJobs(funcObj.ObjectMeta.Namespace).Create(context.TODO(), job, metav1.CreateOptions{})
 	if err != nil && k8sErrors.IsAlreadyExists(err) {
 		newCronJob := &batchv1beta1.CronJob{}
-		newCronJob, err = client.BatchV1beta1().CronJobs(funcObj.ObjectMeta.Namespace).Get(jobName, metav1.GetOptions{})
+		newCronJob, err = client.BatchV1beta1().CronJobs(funcObj.ObjectMeta.Namespace).Get(context.TODO(), jobName, metav1.GetOptions{})
 		if err != nil {
 			return err
 		}
@@ -161,7 +162,7 @@ func EnsureCronJob(client kubernetes.Interface, funcObj *kubelessApi.Function, c
 		newCronJob.ObjectMeta.Labels = funcObj.ObjectMeta.Labels
 		newCronJob.ObjectMeta.OwnerReferences = or
 		newCronJob.Spec = job.Spec
-		_, err = client.BatchV1beta1().CronJobs(funcObj.ObjectMeta.Namespace).Update(newCronJob)
+		_, err = client.BatchV1beta1().CronJobs(funcObj.ObjectMeta.Namespace).Update(context.TODO(), newCronJob, metav1.UpdateOptions{})
 	}
 	return err
 }
