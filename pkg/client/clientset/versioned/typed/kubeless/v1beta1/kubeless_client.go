@@ -18,7 +18,6 @@ package v1beta1
 import (
 	v1beta1 "github.com/kubeless/cronjob-trigger/pkg/apis/kubeless/v1beta1"
 	"github.com/kubeless/cronjob-trigger/pkg/client/clientset/versioned/scheme"
-	"k8s.io/apimachinery/pkg/runtime"
 	serializer "k8s.io/apimachinery/pkg/runtime/serializer"
 	rest "k8s.io/client-go/rest"
 )
@@ -70,8 +69,8 @@ func setConfigDefaults(config *rest.Config) error {
 	config.GroupVersion = &gv
 	config.APIPath = "/apis"
 
-	codec := scheme.Codecs.LegacyCodec(gv)
-	config.NegotiatedSerializer = serializer.NegotiatedSerializerWrapper(runtime.SerializerInfo{Serializer: codec})
+	v1beta1.AddToScheme(scheme.Scheme)
+	config.NegotiatedSerializer = serializer.NewCodecFactory(scheme.Scheme)
 
 	if config.UserAgent == "" {
 		config.UserAgent = rest.DefaultKubernetesUserAgent()
